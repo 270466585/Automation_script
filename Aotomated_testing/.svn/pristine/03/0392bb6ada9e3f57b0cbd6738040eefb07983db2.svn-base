@@ -1,0 +1,100 @@
+# coding:utf-8
+
+import unittest
+from Base_page.DriverPage import browser
+from Base_page.Order_managementPage.JihuaPage import Rukujihua
+from common import read_Data
+from common.logger import Log
+from common import Global_function
+from common.Global_function import login_url
+from random import randint
+import time as t
+
+testData=randint(1,50)
+testData1=randint(1,50)
+testData2='3D01171106'+str(randint(100,999))
+
+
+
+class Jihua(unittest.TestCase):
+    log = Log()
+    @classmethod
+    def setUpClass(cls):
+        cls.driver =browser()
+        cls.JH = Rukujihua(cls.driver)
+        cls.JH.open(login_url, u'登录')
+        cls.driver.implicitly_wait(5)
+        Global_function.login(cls)
+        cls.JH.assertion_test1()
+        cls.JH.assertion_test2()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+
+    def test_RKJH1(self):
+        '''创建清单入库'''
+        '''
+
+        :创建清单入库
+        :return: 
+        '''
+        self.log.info('------创建清单入库：start!---------')
+        data=self.JH.assertion_test3()
+        try:
+            data1 = int(data[11]) + 1
+        except:
+            Data2 = data[12:14]
+            data2 = int(Data2) + 1
+        self.JH.assertion_test4(read_Data.getExcel2(testData,3))
+        data3=self.JH.assertion_test3()
+        try:
+            data31 = int(data3[11])
+            self.assertEqual(data1, data31)
+        except:
+            Data3 = int(data3[12:14])
+            self.assertEqual(Data3, data2)
+        self.log.info('------创建清单入库：stop!---------')
+
+    def test_RKJH2(self):
+        '''创建多件入库'''
+        '''
+
+        :创建清单入库
+        :return: 
+        '''
+        self.log.info('------创建清单入库：start!---------')
+        data=self.JH.assertion_test3()
+        try:
+            data1 = int(data[11]) + 1
+        except:
+            Data2 = data[12:14]
+            data2 = int(Data2) + 1
+        self.JH.assertion_test5(read_Data.getExcel2(testData,3))
+        data3=self.JH.assertion_test3()
+        try:
+            data31 = int(data3[11])
+            self.assertEqual(data1, data31)
+        except:
+            Data3 = int(data3[12:14])
+            self.assertEqual(Data3, data2)
+        self.log.info('------创建清单入库：stop!---------')
+
+    def test_RKJH3(self):
+        '''查看计划入库单详情'''
+        '''
+
+        :查看计划入库单详情
+        :return: 
+        '''
+        self.log.info('------查看计划入库单详情：start!---------')
+        self.JH.assertion_test9()
+        t.sleep(0.5)
+        #self.assertEqual(self.CC.assertion_test7(),'入库单详情')
+        self.JH.assertion_test10()
+        self.log.info('------查看计划入库单详情：stop!---------')
+
+
+
+if __name__=='__main__':
+    unittest.main()
